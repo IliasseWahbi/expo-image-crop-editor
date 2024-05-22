@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, StatusBar, Platform } from "react-native";
+import { StyleSheet, View, Text, StatusBar, Platform } from "react-native";
 import { ControlBar } from "./ControlBar";
 import { EditingWindow } from "./EditingWindow";
 import * as ImageManipulator from "expo-image-manipulator";
@@ -37,8 +37,8 @@ export const EditorContext = React.createContext<EditorContextType>({
   fixedAspectRatio: 1.6,
   lockAspectRatio: false,
   mode: "full",
-  onCloseEditor: () => {},
-  onEditingComplete: () => {},
+  onCloseEditor: () => { },
+  onEditingComplete: () => { },
 });
 
 export type Mode = "full" | "crop-only";
@@ -136,6 +136,7 @@ function ImageEditorCore(props: ImageEditorProps) {
     }
   }, [props.visible]);
 
+
   return (
     <EditorContext.Provider
       value={{
@@ -173,6 +174,14 @@ export function ImageEditorView(props: ImageEditorProps) {
   const [ready, setReady] = useRecoilState(readyState);
   const [processing, setProcessing] = useRecoilState(processingState);
 
+  if (props.imageUri == undefined)
+    return (
+      <View style={[styles.container, styles.containerError, {backgroundColor: "black"}]}>
+        <ControlBar/>
+        <Text style={styles.errorImageNotFoundText}>Impossible de charger l'image</Text>
+      </View>
+    )
+  
   return (
     <>
       {ready ? (
@@ -202,4 +211,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#222",
   },
+  containerError: {
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  errorImageNotFoundText: {
+    color: "white"
+  }
 });
