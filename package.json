@@ -1,6 +1,6 @@
 {
   "name": "expo-image-crop-editor",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "",
   "main": "lib/commonjs/index.js",
   "types": "lib/typescript/src/index.d.ts",
